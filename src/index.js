@@ -16,8 +16,6 @@ var MovieDetails = require('./components/MovieDetails')
 var MovieList = require('./components/MovieList')
 var NoCurrentMovie = require('./components/NoCurrentMovie')
 var SortBar = require('./components/SortBar')
-var NavBarItem = require('./components/NavBarItem')
-
 
 // There should really be some JSON-formatted data in movies.json, instead of an empty array.
 // I started writing this command to extract the data from the learn-sql workspace
@@ -51,11 +49,13 @@ var App = React.createClass({
   },
   resetMovieListClicked: function() {
     this.setState({
-      movies: movieData.sort(this.movieCompareByReleased)
+      movies: movieData.sort(this.movieCompareByReleased),
+      currentview: 'latest'
     })
   },
   viewChanged: function(event, view) {
     event.preventDefault()
+
     // View is either "latest" (movies sorted by release), "alpha" (movies
     // sorted A-Z), or "maps" (the data visualized)
     // We should probably do the sorting and setting of movies in state here.
@@ -139,7 +139,7 @@ var App = React.createClass({
     return (
       <div>
         <Header currentUser={this.state.currentUser} />
-        <SortBar movieCount={this.state.movies.length} viewChanged={this.viewChanged} />
+        <SortBar movieCount={this.state.movies.length} viewChanged={this.viewChanged} currentView={this.state.currentView} />
         <div className="main row">
           {this.renderMainSection()}
         </div>
